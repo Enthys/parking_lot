@@ -1,8 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { VehicleType } from '../parking/entity/vehicle.entity';
 
-export class CreateCarTable1674294730978 implements MigrationInterface {
+export class CreateVehicleTable1674294730978 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      "CREATE TYPE vehicle_category AS ENUM ('A', 'B', 'C')",
+    );
+
     await queryRunner.createTable(
       new Table({
         name: 'vehicles',
@@ -18,7 +21,7 @@ export class CreateCarTable1674294730978 implements MigrationInterface {
           {
             name: 'type',
             type: 'enum',
-            enum: Object.values(VehicleType),
+            enumName: 'vehicle_category',
             isNullable: false,
           },
           {
@@ -49,5 +52,6 @@ export class CreateCarTable1674294730978 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('vehicles', true, true, true);
+    await queryRunner.query('DROP TYPE vehicle_category CASCADE');
   }
 }

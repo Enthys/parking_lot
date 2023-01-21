@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum ParkingConfigName {
   Space = 'space',
@@ -6,9 +6,9 @@ export enum ParkingConfigName {
 
 @Entity()
 export default class ParkingConfig {
-  @PrimaryColumn({ enum: ParkingConfig })
-  public readonly name: ParkingConfigName;
+  @PrimaryColumn({ type: 'enum', enum: ParkingConfig })
+  public config: ParkingConfigName;
 
   @Column({ type: 'varchar', length: 64 })
-  public space: string;
+  public value: string;
 }

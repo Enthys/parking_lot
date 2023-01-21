@@ -1,22 +1,25 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import VehicleCategory from './vehicle-category.entity';
 
-export enum VehicleType {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-}
-
-@Entity()
+@Entity({ name: 'vehicles' })
 export default class Vehicle {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column({ enum: VehicleType })
-  public type: VehicleType;
+  @JoinColumn({ name: 'category' })
+  @ManyToOne(() => VehicleCategory, { eager: true })
+  public category: VehicleCategory;
 
   @Column({ type: 'varchar', length: 64 })
   @Index({ unique: true, where: 'exit IS NOT NULL' })
-  public plateNumber: string;
+  public plate: string;
 
   @Column({ type: 'timestamp', nullable: false, default: 'NOW()' })
   public enter: Date;

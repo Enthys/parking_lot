@@ -23,6 +23,10 @@ export class CreateParkingConfigTable1674294538419
         ],
       }),
     );
+
+    await queryRunner.query(`
+		INSERT INTO parking_config(config, value) VALUES ('space', '200');
+	`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
