@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import SaveConfigDTO from '../dto/save-config.dto';
 import ParkingConfig, { ParkingConfigName } from '../entity/parking.entity';
 
 @Injectable()

@@ -1,46 +1,37 @@
-import { Module, OnModuleInit } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import DiscountModule from '../discount/discount.module';
+import VehicleModule from '../vehicle/vehicle.module';
 import CategoryHourlyRate from './entity/category-hourly-rate.entity';
-import ParkingConfig, { ParkingConfigName } from './entity/parking.entity';
-import VehicleCategory from './entity/vehicle-category.entity';
-import VehicleTypeCategory from './entity/vehicle-type-category.entity';
-import Vehicle from './entity/vehicle.entity';
+import ParkingConfig from './entity/parking.entity';
+import VehicleDiscount from './entity/vehicle-discount.entity';
 import HourlyRateService from './hourly-rate.service';
 import ParkingController from './parking.controller';
-import ParkingConfigService from './parking.service';
+import ParkingService from './parking.service';
 import HourlyRateRepository from './repository/hourly-rate.repository';
 import ParkingConfigRepository from './repository/parking.repository';
-import VehicleCategoryRepository from './repository/vehicle-category.repository';
-import VehicleTypeCategoryRepository from './repository/vehicle-type-category.repository';
-import VehicleRepository from './repository/vehicle.repository';
-import VehicleCategoryService from './vehicle-category.service';
-import VehicleTypeCategoryService from './vehicle-type-category.service';
-import VehicleController from './vehicle.controller';
-import VehicleService from './vehicle.service';
+import VehicleDiscountRepository from './repository/vehicle-discount.repository';
+import VehicleDiscountService from './vehicle-discount.service';
 
 @Module({
   imports: [
+    VehicleModule,
+    DiscountModule,
     TypeOrmModule.forFeature([
       ParkingConfig,
-      Vehicle,
-      VehicleCategory,
-      VehicleTypeCategory,
       CategoryHourlyRate,
+      VehicleDiscount,
     ]),
   ],
   providers: [
-    ParkingConfigService,
-    VehicleService,
-    VehicleCategoryService,
-    VehicleTypeCategoryService,
+    ParkingService,
     HourlyRateService,
+    VehicleDiscountService,
 
     ParkingConfigRepository,
-    VehicleRepository,
-    VehicleCategoryRepository,
-    VehicleTypeCategoryRepository,
     HourlyRateRepository,
+    VehicleDiscountRepository,
   ],
-  controllers: [ParkingController, VehicleController],
+  controllers: [ParkingController],
 })
 export default class ParkingModule {}

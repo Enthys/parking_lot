@@ -24,9 +24,8 @@ export class CreateVehicleTypeCategoryTable1674303271455
           },
           {
             name: 'category',
-            type: 'enum',
-            enumName: 'vehicle_category',
-
+            type: 'varchar',
+            length: '64',
             isNullable: false,
           },
         ],

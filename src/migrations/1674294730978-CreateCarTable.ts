@@ -2,10 +2,6 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateVehicleTable1674294730978 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      "CREATE TYPE vehicle_category AS ENUM ('A', 'B', 'C')",
-    );
-
     await queryRunner.createTable(
       new Table({
         name: 'vehicles',
@@ -20,8 +16,8 @@ export class CreateVehicleTable1674294730978 implements MigrationInterface {
           },
           {
             name: 'type',
-            type: 'enum',
-            enumName: 'vehicle_category',
+            type: 'varchar',
+            length: '64',
             isNullable: false,
           },
           {

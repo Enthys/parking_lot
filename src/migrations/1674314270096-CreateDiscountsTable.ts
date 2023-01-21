@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateDiscountsTable1674298671365 implements MigrationInterface {
+export class CreateDiscountsTable1674314270096 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -12,19 +12,11 @@ export class CreateDiscountsTable1674298671365 implements MigrationInterface {
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
-            isNullable: false,
-            unsigned: true,
           },
           {
-            name: 'name',
+            name: 'type',
             type: 'varchar',
             length: '64',
-            isNullable: false,
-            isUnique: true,
-          },
-          {
-            name: 'percent',
-            type: 'float',
             isNullable: false,
           },
         ],

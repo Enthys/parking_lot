@@ -18,8 +18,8 @@ export class CreateCategoryHourlyRatesTable1674309692488
           },
           {
             name: 'category',
-            type: 'enum',
-            enumName: 'vehicle_category',
+            type: 'varchar',
+            length: '64',
             isNullable: false,
           },
           {

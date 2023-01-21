@@ -15,8 +15,8 @@ export class CreateVehicleCategoriesTable1674301506097
         columns: [
           {
             name: 'category',
-            type: 'enum',
-            enumName: 'vehicle_category',
+            type: 'varchar',
+            length: '64',
             isPrimary: true,
             isUnique: true,
             isNullable: false,

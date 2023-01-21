@@ -20,22 +20,27 @@ export default class VehicleRepository {
   }
 
   public getByPlate(plate: string): Promise<Vehicle> {
-    return this.repository.findOne({ where: { plate } });
+    return this.repository.findOne({ where: { plate, exit: IsNull() } });
   }
 
-  public parkedCars(): Promise<Vehicle[]> {
-    return this.repository.find({
-      where: { exit: IsNull() },
-    });
+  public async setEndDate(vehicle: Vehicle, endDate: Date): Promise<void> {
+    await this.repository.update(vehicle.id, { exit: endDate });
   }
 
   public async takenSpace(): Promise<number> {
+    console.log(
+      await this.repository.query(`
+SELECT SUM(categories.spaces) as total FROM vehicles as vehicles
+JOIN vehicle_categories as categories ON vehicles.category = categories.category
+WHERE vehicles.exit IS NULL
+	`),
+    );
     const res = await this.repository.query(`
-		SELECT SUM(categories.spaces) as total FROM vehicles as vehicles
-			JOIN vehicle_categories as categories ON vehicles.category = categories.category
-			WHERE vehicles.exit IS NULL
+SELECT SUM(categories.spaces) as total FROM vehicles as vehicles
+JOIN vehicle_categories as categories ON vehicles.category = categories.category
+WHERE vehicles.exit IS NULL
 	`);
 
-    return res[0]['total'];
+    return res[0]['total'] || 0;
   }
 }

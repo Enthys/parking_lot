@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import CategoryHourlyRate from '../entity/category-hourly-rate.entity';
-import VehicleCategory from '../entity/vehicle-category.entity';
+import VehicleCategory from '../../vehicle/entity/vehicle-category.entity';
 
 @Injectable()
 export default class HourlyRateRepository {

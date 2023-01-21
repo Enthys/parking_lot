@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsString, MaxLength } from 'class-validator';
-import VehicleType from '../enum/vehicle-type.enum';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export default class VehicleSignupDTO {
   @ApiProperty({
@@ -12,11 +11,20 @@ export default class VehicleSignupDTO {
   public plate: string;
 
   @ApiProperty({
-    enum: VehicleType,
     required: true,
     description: `The type of the vehicle. 
 	  Depending on the type the vehicle will take a different amount of space in the parking lot.`,
   })
-  @IsEnum(VehicleType)
-  public vehicleType: VehicleType;
+  @IsString()
+  @IsNotEmpty()
+  public vehicleType: string;
+
+  @ApiProperty({
+    required: false,
+    description: `The discount which to use when calculating the final bill.`,
+  })
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  public discount?: string;
 }
