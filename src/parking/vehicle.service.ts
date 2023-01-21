@@ -4,9 +4,9 @@ import VehicleTypeCategory from './entity/vehicle-type-category.entity';
 import Vehicle from './entity/vehicle.entity';
 import NotEnoughParkingSpacesError from './error/not-enough-parking-spaces.error';
 import VehicleAlreadyInLotError from './error/vehicle-already-in-lot.error';
+import VehicleNotParkedError from './error/vehicle-not-parked.error';
 import ParkingConfigService from './parking.service';
 import VehicleRepository from './repository/vehicle.repository';
-import VehicleCategoryService from './vehicle-category.service';
 import VehicleTypeCategoryService from './vehicle-type-category.service';
 
 @Injectable()
@@ -16,6 +16,15 @@ export default class VehicleService {
     private readonly parkingConfigService: ParkingConfigService,
     private readonly typeCategoryService: VehicleTypeCategoryService,
   ) {}
+
+  public async getByPlate(plate: string): Promise<Vehicle> {
+    const vehicle = await this.vehicleRepository.getByPlate(plate);
+    if (!vehicle) {
+      throw new VehicleNotParkedError(plate);
+    }
+
+    return vehicle;
+  }
 
   public async signupVehicle(dto: VehicleSignupDTO): Promise<Vehicle> {
     const vehicle = await this.vehicleRepository.getByPlate(dto.plate);

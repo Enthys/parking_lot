@@ -1,11 +1,14 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import CategoryHourlyRate from './entity/category-hourly-rate.entity';
 import ParkingConfig, { ParkingConfigName } from './entity/parking.entity';
 import VehicleCategory from './entity/vehicle-category.entity';
 import VehicleTypeCategory from './entity/vehicle-type-category.entity';
 import Vehicle from './entity/vehicle.entity';
+import HourlyRateService from './hourly-rate.service';
 import ParkingController from './parking.controller';
 import ParkingConfigService from './parking.service';
+import HourlyRateRepository from './repository/hourly-rate.repository';
 import ParkingConfigRepository from './repository/parking.repository';
 import VehicleCategoryRepository from './repository/vehicle-category.repository';
 import VehicleTypeCategoryRepository from './repository/vehicle-type-category.repository';
@@ -22,6 +25,7 @@ import VehicleService from './vehicle.service';
       Vehicle,
       VehicleCategory,
       VehicleTypeCategory,
+      CategoryHourlyRate,
     ]),
   ],
   providers: [
@@ -29,11 +33,13 @@ import VehicleService from './vehicle.service';
     VehicleService,
     VehicleCategoryService,
     VehicleTypeCategoryService,
+    HourlyRateService,
 
     ParkingConfigRepository,
     VehicleRepository,
     VehicleCategoryRepository,
     VehicleTypeCategoryRepository,
+    HourlyRateRepository,
   ],
   controllers: [ParkingController, VehicleController],
 })

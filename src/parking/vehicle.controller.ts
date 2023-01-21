@@ -1,13 +1,26 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import VehicleSignupDTO from './dto/vehicle-signup.dto';
+import VehicleStatusDTO from './dto/vehicle-status.dto';
 import Vehicle from './entity/vehicle.entity';
+import HourlyRateService from './hourly-rate.service';
 import VehicleService from './vehicle.service';
 
 @Controller('/api/parking/vehicles')
 @ApiTags('Parking')
 export default class VehicleController {
-  constructor(private readonly vehicleService: VehicleService) {}
+  constructor(
+    private readonly vehicleService: VehicleService,
+    private readonly hourlyRateService: HourlyRateService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -22,5 +35,18 @@ export default class VehicleController {
   })
   public signupCar(@Body() dto: VehicleSignupDTO): Promise<Vehicle> {
     return this.vehicleService.signupVehicle(dto);
+  }
+
+  @Get(':plate')
+  public async getParkedCarInformation(
+    @Param('plate') plate: string,
+  ): Promise<VehicleStatusDTO> {
+    const vehicle = await this.vehicleService.getByPlate(plate);
+
+    return {
+      plate: vehicle.plate,
+      start: vehicle.enter,
+      total: await this.hourlyRateService.getVehicleBill(vehicle),
+    };
   }
 }
