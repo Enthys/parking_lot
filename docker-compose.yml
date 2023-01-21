@@ -1,0 +1,26 @@
+version: "3.7"
+
+volumes:
+  parking-lot-db-vol:
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules/
+    env_file:
+      - .env
+    ports:
+      - "8000:80"
+
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: secret_password
+      POSTGRES_DB: parking_lot
+    volumes:
+      - parking-lot-db-vol:/var/lob/postgresql/data
+
